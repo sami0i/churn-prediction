@@ -1,0 +1,24 @@
+---
+- name: Upload all model artifacts to S3 (via Ansible)
+  hosts: localhost
+  connection: local
+  vars:
+    bucket_name: "{{ lookup('env', 'BUCKET_NAME') | default('churn-prediction-data-asamane', true) }}"
+    local_dir: "{{ playbook_dir }}/../../artifacts"
+    s3_prefix: "artifacts-ansible"
+
+  tasks:
+    - name: Find all files in the artifacts/ folder
+      find:
+        paths: "{{ local_dir }}"
+        recurse: yes
+        file_type: file
+      register: found_files
+
+    - name: Upload each artifact to S3 under artifacts-ansible/
+      amazon.aws.aws_s3:
+        bucket: "{{ bucket_name }}"
+        object: "{{ s3_prefix }}/{{ item.path | regex_replace('^' + local_dir + '/', '') }}"
+        src: "{{ item.path }}"
+        mode: put
+      loop: "{{ found_files.files }}"

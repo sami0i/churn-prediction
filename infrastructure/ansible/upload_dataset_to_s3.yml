@@ -1,0 +1,16 @@
+- name: Upload dataset to S3
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    local_dataset_path: "{{ playbook_dir }}/../../data/data.csv"
+
+  tasks:
+    - name: Upload CSV to S3
+      amazon.aws.aws_s3:
+        bucket: "{{ lookup('env', 'BUCKET_NAME') }}"
+        object: "data/data.csv"
+        src: "{{ local_dataset_path }}"
+        mode: put
+        region: "{{ lookup('env', 'AWS_REGION') }}"
