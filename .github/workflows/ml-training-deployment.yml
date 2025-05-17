@@ -46,6 +46,10 @@ jobs:
         with:
           terraform_version: 1.5.7
 
+      - name: 🧹 Remove cached backend config
+        run: rm -rf .terraform
+        working-directory: infrastructure/terraform
+
       - name: 🧱 Initialize & Apply Terraform
         working-directory: infrastructure/terraform
         run: |
