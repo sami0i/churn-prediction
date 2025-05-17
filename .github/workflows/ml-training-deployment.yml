@@ -46,16 +46,28 @@ jobs:
         with:
           terraform_version: 1.5.7
 
-      - name: 🧹 Remove cached backend config
-        run: rm -rf .terraform
-        working-directory: infrastructure/terraform
-
-      - name: 🧱 Initialize & Apply Terraform
+      - name: 🧪 Terraform Init & Plan
+        id: tf_plan
         working-directory: infrastructure/terraform
         run: |
-          terraform init
-          terraform plan
-          terraform apply -auto-approve
+          terraform init -reconfigure
+          terraform plan -out=tfplan -detailed-exitcode || echo $? > tf_exitcode.txt
+
+      - name: 🚀 Apply If Changes Exist
+        if: success() && steps.tf_plan.outcome == 'success'
+        working-directory: infrastructure/terraform
+        run: |
+          exit_code=$(cat tf_exitcode.txt || echo 0)
+
+          if [ "$exit_code" -eq 2 ]; then
+            echo "🔄 Changes detected. Applying plan..."
+            terraform apply -auto-approve tfplan
+          elif [ "$exit_code" -eq 0 ]; then
+            echo "✅ No changes detected. Nothing to apply."
+          else
+            echo "❌ Terraform plan failed."
+            exit 1
+          fi
 
 
   build-and-push-image:
