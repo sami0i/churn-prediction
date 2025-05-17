@@ -1,0 +1,11 @@
+# XGBoost Model Hyperparameters
+model:
+  learning_rate: 0.1         # Step size shrinkage used to prevent overfitting
+  n_estimators: 1000         # Number of boosting rounds (trees)
+  subsample: 0.8             # Fraction of samples to use per tree (for regularization)
+  colsample_bytree: 0.2      # Fraction of features to use per tree (for regularization)
+
+# Data Split Parameters
+split:
+  test_size: 0.2             # Fraction of data reserved for validation
+  random_state: 42           # Seed for reproducible splits
