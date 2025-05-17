@@ -1,8 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "churn-prediction-terraform-state"
-    key            = "state.tfstate"
+    bucket         = "your-terraform-bucket-name"
+    key            = "churn-prediction-assessment/terraform.tfstate"
     region         = "eu-north-1"
-    use_lockfile   = true  # New preferred way
+    encrypt        = true
+    dynamodb_table = "terraform-locks"
   }
 }
