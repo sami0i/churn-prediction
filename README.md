@@ -6,6 +6,11 @@ A scalable, cloud-ready Machine Learning pipeline for predicting customer churn 
 
 > 📦 Provisioned with Terraform · 🚀 Deployed with ECS Fargate · 🔐 Artifacts stored in S3
 
+## Touch the working solution live!
+Click [here](https://github.com/sami0i/churn-prediction/actions/runs/15084115059) to see the project demo.
+![image](https://github.com/user-attachments/assets/a9685aba-2428-464f-a8a5-6cddafa4c2db)
+
+
 ## Project Structure
 
 ```bash
