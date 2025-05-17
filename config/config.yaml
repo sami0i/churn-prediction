@@ -1,0 +1,14 @@
+# Data Ingestion Configuration
+data_ingestion:
+  filename: data.csv           # Input CSV filename
+  local_dir: data              # Local directory fallback (used before S3)
+
+# Data Preprocessing Configuration
+data_preprocessing:
+  encoder_path: artifacts/encoder.joblib  # Path to save/load OneHotEncoder
+  scaler_path: artifacts/scaler.joblib    # Path to save/load MinMaxScaler
+  save_to_s3_flag: true                   # If true, save artifacts to S3
+
+# Model Training Configuration
+model:
+  model_path: artifacts/models/base_model.joblib  # Path to save trained model
